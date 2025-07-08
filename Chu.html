@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IEM Zone</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #da0000 0%, #000000 100%);
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #da0000;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #da0000;
+        }
+
+        .nav-icons {
+            display: flex;
+            gap: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .nav-icons i {
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-icons i:hover {
+            transform: scale(1.2);
+            color: #da0000;
+        }
+
+        /* Slide arrow button hover effect for product gallery */
+        #slidePrev:hover, #slideNext:hover {
+            background: #fff;
+            box-shadow: 0 4px 16px rgba(218,0,0,0.13);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: linear-gradient(135deg, #da0000 0%, #000000 100%);
+            overflow: hidden;
+        }
+
+        .hero-content {
+            text-align: center;
+            color: white;
+            z-index: 2;
+            max-width: 800px;
+            padding: 0 2rem;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.5s forwards;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.7s forwards;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.9s forwards;
+        }
+
+        .cta-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .floating-headphones {
+            position: absolute;
+            top: 50%;
+            left: 10%;
+            transform: translateY(-50%);
+            font-size: 15rem;
+            color: rgba(255, 255, 255, 0.1);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .floating-headphones.right {
+            left: auto;
+            right: 10%;
+            animation-delay: -3s;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 5rem 2rem;
+            background: white;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #333;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .feature-card {
+            text-align: center;
+            padding: 2rem;
+            border-radius: 20px;
+            background: linear-gradient(145deg, #f0f0f0, #ffffff);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            color: #da0000;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .feature-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+      
+        /* Highlight all children on hover */
+        .product-card:hover .product-image {
+            background: linear-gradient(45deg, #ffb347, #ffcc33);
+            color: #333;
+        }
+        .product-card:hover .product-title {
+            color: #ff9800;
+        }
+        .product-card:hover .product-price {
+            color: #000000;
+        }
+        .product-card:hover .product-description {
+            color: #ff9800;
+        }
+        .product-card:hover .add-to-cart {
+            background: #000000;
+            color: #fff;
+        }
+
+        .product-image {
+            height: 200px;
+            background: linear-gradient(45deg, #da0000, #000000);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: white;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .product-info {
+            padding: 1.5rem;
+        }
+
+        .product-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #333;
+            transition: color 0.3s;
+        }
+
+        .product-price {
+            font-size: 1.5rem;
+            color: #da0000;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            transition: color 0.3s;
+        }
+
+        .product-description {
+            color: #666;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+
+        .add-to-cart {
+            width: 100%;
+            padding: 0.8rem;
+            background: #da0000;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s, color 0.3s, transform 0.3s;
+        }
+
+        .add-to-cart:hover {
+            background: #da0000;
+            transform: translateY(-2px);
+        }
+
+        /* Newsletter Section */
+        .newsletter {
+            padding: 4rem 2rem;
+            background: #333;
+            color: white;
+            text-align: center;
+        }
+
+        .newsletter h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .newsletter p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            opacity: 0.8;
+        }
+
+        .newsletter-form {
+            display: flex;
+            max-width: 500px;
+            margin: 0 auto;
+            gap: 1rem;
+        }
+
+        .newsletter-input {
+            flex: 1;
+            padding: 1rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+        }
+
+        .newsletter-button {
+            padding: 1rem 2rem;
+            background: #da0000;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .newsletter-button:hover {
+            background: #da0000;
+        }
+
+        /* Footer */
+       /* Footer */
+        .footer {
+            background: #222;
+            color: white;
+            padding: 3rem 2rem 1rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: #da0000;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section ul li a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section ul li a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid #444;
+            color: #ccc;
+        }
+
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(-50%) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-60%) rotate(5deg);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .floating-headphones {
+                font-size: 8rem;
+            }
+
+            .newsletter-form {
+                flex-direction: column;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        /* ---------------- Products Section ---------------- */
+.products {
+    padding: 5rem 2rem;
+    background: #f7f7f7;
+}
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+}
+.product-card {
+    border-radius: 20px;
+    overflow: hidden;
+    background: #ffffff;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.product-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15);
+}
+/* ไฮไลท์ลูก ๆ เมื่อ hover */
+.product-card:hover .product-image {
+    background: linear-gradient(45deg, #707070, #ffffff);
+    color: #333;
+}
+.product-card:hover .product-title { color: #ff9800; }
+.product-card:hover .product-price { color: #000; }
+.product-card:hover .product-description { color: #ff9800; }
+.product-card:hover .add-to-cart {
+    background: #000;
+    color: #fff;
+}
+.product-image {
+    height: 200px;
+    background: linear-gradient(45deg, #da0000, #000000);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+    color: #fff;
+    transition: background 0.3s, color 0.3s;
+}
+.product-info { padding: 1.5rem; }
+.product-title {
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: #333;
+    transition: color 0.3s;
+}
+.product-price {
+    font-size: 1.5rem;
+    color: #da0000;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    transition: color 0.3s;
+}
+.product-description {
+    color: #666;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    transition: color 0.3s;
+}
+.add-to-cart {
+    width: 100%;
+    padding: 0.8rem;
+    background: #da0000;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s, color 0.3s, transform 0.3s;
+}
+.add-to-cart:hover { background: #da0000; transform: translateY(-2px); }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-headphones"></i> IEM Zone
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">หน้าแรก</a></li>
+                <li><a href="A1.html">สินค้า</a></li>
+                <li><a href="about.html">เกี่ยวกับเรา</a></li>
+                <li><a href="CT.html">ติดต่อ</a></li>
+                <li><a href="FQ.html">คำถามที่พบบ่อย</a></li>
+            </ul>
+        </div>
+    </nav>
+<!-- Products Section -->
+<section class="products" id="products">
+
+<!-- Notice Popup -->
+<div id="buyNotice" style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff3f3;color:#da0000;padding:1.3rem 2.5rem;border-radius:16px;box-shadow:0 8px 32px rgba(218,0,0,0.18);font-size:1.25rem;font-weight:700;z-index:9999;transition:opacity 0.3s;opacity:0;text-align:center;">
+    <i class="fa-solid fa-circle-check" style="color:#16c60c;margin-right:0.7rem;font-size:1.5rem;"></i> ซื้อสินค้าเรียบร้อยแล้ว!
+</div>
+
+        <div class="shopee-product-container">
+        <div class="shopee-product-gallery" style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;min-height:360px;position:relative;">
+            <!-- Back Arrow Button (leftmost edge, vertically centered) -->
+            <button id="backBtn" title="ย้อนกลับ" style="position:fixed;left:16px;top:50%;transform:translateY(-50%);background:rgba(255,255,255,0.96);border:none;border-radius:50%;width:42px;height:42px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1.45rem;box-shadow:0 2px 8px rgba(0,0,0,0.13);z-index:2000;transition:background 0.2s;">
+                <i class="fa-solid fa-arrow-left" style="color:#da0000;"></i>
+            </button>
+                <div class="shopee-slide-wrapper" id="slideWrapper" style="height:340px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;">
+                    <img id="slideProductImg" src="Image/EDX.png" alt="สินค้า" class="shopee-slide-img" style="max-height:320px;max-width:100%;object-fit:contain;transition:opacity 0.7s cubic-bezier(.4,0,.2,1), transform 0.7s cubic-bezier(.4,0,.2,1);">
+                    <button id="slidePrev" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);background:rgba(255,255,255,0.8);border:none;border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1.3rem;box-shadow:0 2px 8px rgba(0,0,0,0.08);z-index:2;"><i class="fa-solid fa-chevron-left" style="color:#da0000;"></i></button>
+                    <button id="slideNext" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:rgba(255,255,255,0.8);border:none;border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1.3rem;box-shadow:0 2px 8px rgba(0,0,0,0.08);z-index:2;"><i class="fa-solid fa-chevron-right" style="color:#da0000;"></i></button>
+                </div>
+                <div class="shopee-slide-dots" id="slideDots">
+                    <!-- Dots will be rendered by JS -->
+                </div>
+            </div>
+            <div class="shopee-product-info-fixed" style="display:flex;align-items:center;height:100%;min-height:360px;">
+                <div class="shopee-product-info-inner" style="width:100%;">
+                    <h1 id="slideProductTitle" class="shopee-title" style="font-size:2.1rem;font-weight:700;color:#222;margin-bottom:1.1rem;letter-spacing:0.5px;line-height:1.1;text-align:left;">MoonDrop CHU II DSP</h1>
+                    <div id="slideProductPrice" class="shopee-price" style="font-size:1.7rem;color:#da0000;font-weight:700;margin-bottom:1.3rem;letter-spacing:0.5px;text-align:left;">฿990</div>
+                    <div style="display:flex;gap:1.2rem;margin-bottom:1.1rem;">
+                        <div style="display:flex;align-items:center;gap:0.5rem;background:#f8f8f8;border-radius:7px;padding:0.5rem 1.1rem 0.5rem 0.8rem;font-size:1.01rem;color:#222;">
+                            <i class="fa-solid fa-truck-fast" style="color:#da0000;font-size:1.2rem;"></i>
+                            <span>การจัดส่ง <b style="color:#da0000;">ส่งฟรี</b></span>
+                        </div>
+                        <div style="display:flex;align-items:center;gap:0.5rem;background:#f8f8f8;border-radius:7px;padding:0.5rem 1.1rem 0.5rem 0.8rem;font-size:1.01rem;color:#222;">
+                            <i class="fa-solid fa-certificate" style="color:#da0000;font-size:1.2rem;"></i>
+                            <span>การันตี <b style="color:#da0000;">ของแท้ 100%</b></span>
+                        </div>
+                        <div style="display:flex;align-items:center;gap:0.5rem;background:#f8f8f8;border-radius:7px;padding:0.5rem 1.1rem 0.5rem 0.8rem;font-size:1.01rem;color:#222;">
+                            <i class="fa-solid fa-shield-heart" style="color:#da0000;font-size:1.2rem;"></i>
+                            <span>ประกัน <b style="color:#da0000;">1 ปี</b></span>
+                        </div>
+                    </div>
+                    <div style="height:1px;width:100%;background:#eee;margin-bottom:1.3rem;"></div>
+                    <div class="shopee-actions" style="display:flex;gap:0;margin-bottom:1.5rem;">
+                        <button class="buy-now" style="flex:1;padding:0.95rem 0;font-size:1.13rem;border-radius:8px;background:#da0000;color:#fff;font-weight:700;">ซื้อเลย</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- ข้อมูลรายละเอียดเพิ่มเติมด้านล่าง -->
+        <div class="shopee-product-detail" style="max-width:900px;margin:2.5rem auto 0 auto;padding:2rem 1.5rem 2.5rem 1.5rem;background:#fff;border-radius:14px;box-shadow:0 2px 12px rgba(0,0,0,0.07);font-size:1.08rem;color:#222;line-height:1.9;">
+            <h2 style="color:#da0000;font-size:1.4rem;margin-bottom:1.2rem;">รายละเอียดสินค้า</h2>
+            <p>
+                หูฟังรุ่น CHU II DSP คืออีกหนึ่งผลงานจาก Moondrop แบรนด์ที่ขึ้นชื่อเรื่องเสียงคมชัด สมดุล และดีไซน์ล้ำสมัย ด้วยการผสานเทคโนโลยี DSP เข้ากับไดรเวอร์คุณภาพสูง ทำให้หูฟังรุ่นนี้สามารถให้เสียงที่แม่นยำ มีมิติ และตอบสนองได้ดีในทุกแนวเพลง<br>
+                <b>จุดเด่น:</b> มี DSP ในตัว ใช้งานผ่านสาย USB-C โดยไม่ต้องใช้ DAC เพิ่มเติม<br>
+                <b>เหมาะกับ:</b> ฟังเพลง Hi-Res ผ่านมือถือ/คอมพิวเตอร์โดยตรง ใช้งานทั่วไป<br>
+                <b>รับประกัน:</b> 1 ปี (ศูนย์ไทย)
+                <br>
+                            <center><image src="Image/Chu5.png" alt="KZ EDX PRO X" style="width:60%;height:60%;object-fit:contain;margin-top:1.5rem;border-radius:10px;box-shadow:0 2px 12px rgba(0,0,0,0.07);"></center>
+
+                ไดรเวอร์ไดนามิกเคลือบ Beryllium ขนาด 10 มม. พร้อมระบบ DSP ในตัว
+Moondrop CHU II DSP มาพร้อมไดรเวอร์ไดนามิกแบบเคลือบ Beryllium 
+ที่ช่วยให้เสียงมีความคมชัดสูงเป็นพิเศษ ให้รายละเอียดเสียงชัดเจน เสียงเบสกระชับ หนักแน่น 
+โดยยังคงรักษาเสียงกลางที่เปิดโล่ง และเสียงแหลมที่ไม่บาดหู
+<br>ยิ่งไปกว่านั้น การรวมระบบ DSP (Digital Signal Processing) ไว้ในตัวหูฟัง 
+ทำให้เสียงที่ได้ถูกปรับจูนมาอย่างแม่นยำระดับ Studio โดยไม่ต้องอาศัยอุปกรณ์ภายนอกเพิ่มเติม 
+ช่วยให้ผู้ใช้เข้าถึงประสบการณ์เสียง Hi-Fi ได้อย่างง่ายดายและสะดวก
+
+            </p>
+            <ul style="margin-top:1.2rem;">
+                <li>ไดรเวอร์: ไดนามิก 10 มม.</li>
+                <li>ความไว: 119dB</li>
+                <li>ความต้านทาน: 18Ω ± 15%</li>
+                <li>ช่วงความถี่: 15-38000Hz</li>
+                <li>สาย: OFC ถอดเปลี่ยนได้</li>
+                <li>Plug type: Type C</li>
+                <li>Pin type: 0.78mm pin 2</li>
+                <li>Cable length: 120±5cm</li>
+                <li>Wearing type: In-ear</li>
+            </ul>
+                        <image src="Image/Chu4.png" alt="KZ EDX PRO X" style="width:100%;height:auto;object-fit:contain;margin-top:1.5rem;border-radius:0px;box-shadow:0 2px 12px rgba(0,0,0,0.07);">
+
+        </div>
+        
+        <style>
+        .shopee-product-container {
+            max-width: 900px;
+            margin: 2.5rem auto 3rem auto;
+            display: flex;
+            gap: 2.5rem;
+            /* background: #fff; */
+            /* border-radius: 18px; */
+            /* box-shadow: 0 4px 24px rgba(218,0,0,0.10); */
+            padding: 0;
+            align-items: flex-start;
+        }
+        .shopee-product-gallery {
+            flex: 0 0 320px;
+            max-width: 320px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .shopee-slide-wrapper {
+            width: 100%;
+            aspect-ratio: 1/1;
+            background: #fafafa;
+            border-radius: 14px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.2rem;
+        }
+        .shopee-slide-img {
+            width: 90%;
+            height: auto;
+            object-fit: contain;
+            border-radius: 10px;
+            transition: opacity 0.7s cubic-bezier(.4,0,.2,1);
+        }
+        .shopee-slide-dots {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+        .product-dot {
+            height: 12px;
+            width: 12px;
+            background: #ccc;
+            border-radius: 50%;
+            display: inline-block;
+            cursor: pointer;
+            border: 2px solid #fff;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+            transition: background 0.3s;
+        }
+        .product-dot.active {
+            background: #da0000;
+        }
+        .shopee-product-info-fixed {
+            flex: 1;
+            min-width: 220px;
+            display: flex;
+            align-items: stretch;
+            height: 100%;
+        }
+        .shopee-product-info-inner {
+            width: 100%;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+            padding: 2.2rem 2.2rem 2rem 2.2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            min-height: 370px;
+            min-width: 0;
+        }
+        .shopee-title {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 1.2rem;
+            color: #222;
+        }
+        .shopee-price {
+            font-size: 1.7rem;
+            color: #da0000;
+            font-weight: bold;
+            margin-bottom: 1.2rem;
+        }
+        .shopee-desc {
+            font-size: 1.1rem;
+            color: #444;
+            margin-bottom: 1.5rem;
+        }
+        .shopee-actions {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .add-to-cart, .buy-now {
+            padding: 0.8rem 2.2rem;
+            border-radius: 8px;
+            border: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+        }
+        .add-to-cart {
+            background: #fff3f3;
+            color: #da0000;
+            border: 2px solid #da0000;
+        }
+        .add-to-cart:hover {
+            background: #da0000;
+            color: #fff;
+        }
+        .buy-now {
+            background: #da0000;
+            color: #fff;
+        }
+        .buy-now:hover {
+            background: #b30000;
+        }
+        .shopee-specs {
+            margin-top: 1.5rem;
+            font-size: 1.05rem;
+            color: #333;
+            list-style: none;
+            padding: 0;
+        }
+        .shopee-specs li {
+            margin-bottom: 0.5rem;
+        }
+        @media (max-width: 900px) {
+            .shopee-product-container { flex-direction: column; align-items: center; }
+            .shopee-product-gallery { max-width: 100%; }
+        }
+        </style>
+        <script>
+        // Back button functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            var backBtn = document.getElementById('backBtn');
+            if (backBtn) {
+                backBtn.addEventListener('click', function() {
+                    window.history.back();
+                });
+            }
+        });
+        // === Image modal for zoom and hover preview ===
+        // Create modal HTML after DOMContentLoaded to ensure body exists
+        document.addEventListener('DOMContentLoaded', function() {
+            const modalHtml = `
+            <div id="imgModal" style="display:none;position:fixed;z-index:10000;left:0;top:0;width:100vw;height:100vh;background:rgba(0,0,0,0.7);align-items:center;justify-content:center;">
+                <img id="imgModalPic" src="" alt="" style="max-width:90vw;max-height:90vh;border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,0.25);background:#fff;">
+            </div>`;
+            document.body.insertAdjacentHTML('beforeend', modalHtml);
+            const imgModal = document.getElementById('imgModal');
+            const imgModalPic = document.getElementById('imgModalPic');
+            const imgEl = document.getElementById('slideProductImg');
+
+            // Hover effect: scale up image on hover
+            imgEl.style.transition += ', box-shadow 0.3s';
+            imgEl.addEventListener('mouseenter', function() {
+                imgEl.style.transform = 'scale(1.08)';
+                imgEl.style.boxShadow = '0 8px 32px rgba(218,0,0,0.18)';
+            });
+            imgEl.addEventListener('mouseleave', function() {
+                imgEl.style.transform = 'scale(1)';
+                imgEl.style.boxShadow = '';
+            });
+
+            // Click to open modal
+            imgEl.style.cursor = 'zoom-in';
+            imgEl.addEventListener('click', function() {
+                imgModalPic.src = productSlides[productSlideIndex].img;
+                imgModalPic.alt = productSlides[productSlideIndex].title;
+                imgModal.style.display = 'flex';
+            });
+            // Click outside or on image to close
+            imgModal.addEventListener('click', function(e) {
+                if (e.target === imgModal || e.target === imgModalPic) {
+                    imgModal.style.display = 'none';
+                }
+            });
+        });
+        // Shopee-style product slide with animation and controls
+        const productSlides = [
+            {
+                img: 'Image/Chu.png',
+
+            },
+            {
+                img: 'Image/Chu1.png',
+
+            },
+            {
+                img: 'Image/Chu2.png',
+
+            },
+            {
+                img: 'Image/Chu3.png',
+
+            }
+            // เพิ่มรูปใหม่ EDX1.png
+
+        ];
+        let productSlideIndex = 0;
+        const imgEl = document.getElementById('slideProductImg');
+        const slideWrapper = document.getElementById('slideWrapper');
+        const slidePrev = document.getElementById('slidePrev');
+        const slideNext = document.getElementById('slideNext');
+        const slideDots = document.getElementById('slideDots');
+        // Render dots
+        function renderDots() {
+            slideDots.innerHTML = '';
+            productSlides.forEach((_, i) => {
+                const dot = document.createElement('span');
+                dot.className = 'product-dot' + (i === productSlideIndex ? ' active' : '');
+                dot.onclick = () => { goToSlide(i); };
+                slideDots.appendChild(dot);
+            });
+        }
+        // Slide animation
+        let slideTimeout = null;
+        function showProductSlide(idx, animate = true) {
+            if (animate) {
+                imgEl.style.opacity = 0;
+                imgEl.style.transform = 'scale(0.97)';
+                setTimeout(() => {
+                    const p = productSlides[idx];
+                    imgEl.src = p.img;
+                    imgEl.alt = p.title;
+                    imgEl.style.opacity = 1;
+                    imgEl.style.transform = 'scale(1)';
+                }, 220);
+            } else {
+                const p = productSlides[idx];
+                imgEl.src = p.img;
+                imgEl.alt = p.title;
+                imgEl.style.opacity = 1;
+                imgEl.style.transform = 'scale(1)';
+            }
+            renderDots();
+        }
+        function goToSlide(idx) {
+            productSlideIndex = idx;
+            showProductSlide(productSlideIndex);
+            resetAutoSlide();
+        }
+        function prevSlide() {
+            productSlideIndex = (productSlideIndex - 1 + productSlides.length) % productSlides.length;
+            showProductSlide(productSlideIndex);
+            resetAutoSlide();
+        }
+        function nextSlide() {
+            productSlideIndex = (productSlideIndex + 1) % productSlides.length;
+            showProductSlide(productSlideIndex);
+            resetAutoSlide();
+        }
+        slidePrev.onclick = prevSlide;
+        slideNext.onclick = nextSlide;
+        function resetAutoSlide() {
+            if (slideTimeout) clearInterval(slideTimeout);
+            slideTimeout = setInterval(nextSlide, 4000);
+        }
+        // Initial
+        showProductSlide(productSlideIndex, false);
+        resetAutoSlide();
+        /* Slide arrow button hover effect */
+        /* Slide arrow button hover effect */
+        /* (CSS must be outside <style> in <script> for JS, so move this to the main <style> block at the top) */
+        // Show notice when buy-now is clicked
+const buyBtn = document.querySelector('.buy-now');
+const buyNotice = document.getElementById('buyNotice');
+buyBtn.addEventListener('click', function(e) {
+    buyNotice.style.display = 'block';
+    setTimeout(() => { buyNotice.style.opacity = 1; }, 10);
+    setTimeout(() => {
+        buyNotice.style.opacity = 0;
+        setTimeout(() => { buyNotice.style.display = 'none'; }, 400);
+    }, 1800);
+});
+        </script>
+</section>
+</section>
+
+<!-- footer -->
+ <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+              <center>
+                <h3>เกี่ยวกับ IEM Zone</h3>
+                <p>เราเป็นจัดจำหน่ายเรื่องหูฟัง in ear monitor มุ่งมั่นนำเสนอผลิตภัณฑ์คุณภาพสูงให้กับลูกค้า</p>
+              </center>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 IEM Zone.</p>
+        </div>
+    </footer>
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 100) {
+                navbar.style.background = 'rgba(255, 255, 255, 0.98)';
+                navbar.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
+            } else {
+                navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+                navbar.style.boxShadow = 'none';
+            }
+        });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements for animation
+        document.querySelectorAll('.feature-card, .product-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
